@@ -1,0 +1,689 @@
+Build a complete full-stack web application called "MSME Sentinel" for the project "Data Mining-Based Early Warning System for MSME Business Failure Prediction".
+
+IMPORTANT:
+Build the entire application as a working product. Do not create only a UI prototype. The application must support CSV upload, CSV validation, data analysis, machine-learning-based business failure prediction, risk classification, explainable risk factors, early warnings, recommendations, prediction history and reports.
+
+TECHNOLOGY STACK:
+Frontend:
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- Use Chart.js for interactive charts if needed
+- Responsive design for desktop, tablet and mobile
+
+Backend:
+- Python
+- Flask
+- REST API
+
+Data processing:
+- Pandas
+- NumPy
+- Scikit-learn
+
+Database:
+- SQLite using Python
+- SQLAlchemy if useful
+
+Machine Learning:
+- Compare Logistic Regression, Decision Tree, Random Forest and Gradient Boosting/XGBoost if available
+- Select the best model based on validation performance
+- Use Random Forest as fallback if other models are unavailable
+- Save the trained model using joblib
+- Include preprocessing using StandardScaler/appropriate preprocessing
+- Handle missing values safely
+- Do not claim fake accuracy
+- Display actual model evaluation metrics calculated from the training dataset
+
+APPLICATION PURPOSE:
+
+The user uploads a CSV file containing MSME financial and operational information.
+
+Workflow:
+
+CSV Upload
+→ Validate CSV
+→ Preview Dataset
+→ Clean/Preprocess Data
+→ Calculate Business Indicators
+→ ML Prediction
+→ Failure Probability
+→ Risk Classification
+→ Risk Factor Analysis
+→ Early Warning Detection
+→ Recommendations
+→ Prediction History
+→ Report
+
+CREATE THIS PROJECT STRUCTURE:
+
+/
+├── app.py
+├── requirements.txt
+├── README.md
+├── database.db
+├── model/
+│   ├── train_model.py
+│   ├── model.pkl
+│   └── preprocessing.pkl
+├── data/
+│   └── sample_msmе_data.csv
+├── templates/
+│   ├── index.html
+│   ├── dashboard.html
+│   ├── upload.html
+│   ├── prediction.html
+│   ├── risk-analysis.html
+│   ├── warnings.html
+│   ├── advisor.html
+│   ├── history.html
+│   └── reports.html
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── script.js
+│   └── assets/
+└── uploads/
+
+If a better project structure is required, use it, but keep the application simple enough to run directly in Replit.
+
+BRANDING:
+
+Application name:
+MSME Sentinel
+
+Tagline:
+"Detect Risk. Predict Failure. Protect Your Business."
+
+Create a professional logo using CSS/text/icon rather than requiring an external image.
+
+DESIGN:
+
+Create a premium SaaS business analytics interface.
+
+Use:
+- Clean white/light gray background
+- Dark navy typography
+- Blue primary buttons
+- Green for LOW risk
+- Yellow for MEDIUM risk
+- Orange for HIGH risk
+- Red for CRITICAL risk
+- Rounded cards
+- Subtle shadows
+- Modern typography
+- Clean spacing
+- Interactive charts
+- Professional tables
+- Smooth transitions
+- Responsive layout
+
+Do not make it look like a basic college project.
+
+MAIN SIDEBAR:
+
+Dashboard
+Upload Data
+Risk Analysis
+Predictions
+Early Warnings
+AI Advisor
+Reports
+Settings
+
+Add user/profile area and notification icon.
+
+LANDING PAGE:
+
+Create a professional landing page with:
+
+Heading:
+"Know Your Business Risk Before It Becomes a Crisis"
+
+Subtitle:
+"Upload your MSME business data and identify early warning signals using data mining and machine learning."
+
+Buttons:
+"Analyze My Business"
+"View Demo"
+
+Features:
+- CSV Data Analysis
+- Business Failure Prediction
+- Early Warning Alerts
+- Explainable Risk Analysis
+- AI Recommendations
+- Business Risk Reports
+
+Show a dashboard preview.
+
+CSV UPLOAD:
+
+Create a large drag-and-drop upload area.
+
+Accept only CSV files.
+
+Display:
+- File name
+- File size
+- Number of records
+- Upload status
+- Remove button
+
+Required columns:
+
+annual_revenue
+total_expenses
+net_profit
+profit_margin
+cash_flow
+debt_ratio
+loan_amount
+working_capital
+sales_growth
+inventory
+inventory_turnover
+customer_concentration
+employee_efficiency
+market_demand
+competition_level
+inflation_rate
+interest_rate
+supply_chain_delay
+
+Also support reasonable variations in column names such as:
+revenue, expenses, profit, debt, cashflow, etc.
+
+Create a column-mapping system if possible so that users can map their CSV columns to the expected fields.
+
+Add:
+"Download Sample CSV"
+
+DATA VALIDATION:
+
+After upload, validate:
+
+- File format
+- Required columns
+- Missing values
+- Invalid numeric values
+- Duplicate records
+- Empty rows
+- Negative/invalid financial values where inappropriate
+- Dataset size
+
+Display:
+
+Total Records
+Total Columns
+Missing Values
+Duplicate Records
+Data Quality Score
+
+Use:
+
+✓ Valid
+⚠ Warning
+✕ Error
+
+If critical columns are missing, prevent prediction and clearly explain which columns are missing.
+
+DATA PREVIEW:
+
+Display uploaded records in a responsive table.
+
+Show the first 20 records initially.
+
+Add:
+- Search
+- Pagination
+- Horizontal scrolling
+- Column sorting if possible
+
+Show dataset statistics above the table.
+
+ANALYSIS:
+
+When the user clicks "Analyze Dataset", display a professional processing screen.
+
+Stages:
+
+Dataset Uploaded
+Data Validation
+Data Cleaning
+Feature Engineering
+Financial Analysis
+Risk Assessment
+Machine Learning Prediction
+Recommendation Generation
+
+Show animated progress.
+
+BACKEND API:
+
+Create REST endpoints such as:
+
+POST /api/upload
+POST /api/predict
+GET /api/history
+GET /api/prediction/<id>
+GET /api/dashboard
+GET /api/report/<id>
+
+The frontend must communicate with Flask using fetch().
+
+ML MODEL:
+
+Create a realistic machine learning pipeline.
+
+Use the supplied dataset if available.
+
+If no training dataset exists, create a clearly labeled DEMO dataset generator containing realistic synthetic MSME records ONLY for development/testing.
+
+Do not present synthetic data as real-world data.
+
+Create target variable:
+
+business_failure
+
+where:
+0 = business survives
+1 = business failure
+
+Use meaningful financial and operational features.
+
+Train multiple classification models where possible:
+- Logistic Regression
+- Decision Tree
+- Random Forest
+- Gradient Boosting
+
+Evaluate:
+- Accuracy
+- Precision
+- Recall
+- F1 Score
+- ROC-AUC where possible
+
+Select the best model based on appropriate validation performance.
+
+Save model and preprocessing pipeline.
+
+PREDICTION:
+
+For uploaded business data calculate:
+
+Failure Probability
+Survival Probability
+Risk Level
+Business Health Score
+Model Confidence
+
+Risk classification:
+
+LOW:
+0–25%
+
+MEDIUM:
+26–50%
+
+HIGH:
+51–75%
+
+CRITICAL:
+76–100%
+
+Clearly display that these thresholds are application-defined risk categories.
+
+Do not confuse model probability with certainty.
+
+PREDICTION PAGE:
+
+Make this the most visually impressive page.
+
+Show a large circular risk gauge.
+
+Example layout:
+
+BUSINESS FAILURE RISK
+
+23%
+
+LOW RISK
+
+Business Health Score:
+72/100
+
+Failure Probability:
+23%
+
+Survival Probability:
+77%
+
+Model Confidence:
+91%
+
+Prediction Horizon:
+Next 6–12 months
+
+Use the actual returned model result instead of hardcoded values.
+
+RISK ANALYSIS:
+
+Create:
+
+Financial Risk
+Operational Risk
+External Risk
+Overall Risk
+
+Analyze factors such as:
+
+Revenue
+Expenses
+Profit Margin
+Cash Flow
+Debt Ratio
+Working Capital
+Sales Growth
+Inventory
+Inventory Turnover
+Customer Concentration
+Market Demand
+Competition
+Inflation
+Interest Rate
+Supply Chain Delay
+
+Create impact bars.
+
+Example:
+
+Cash Flow — HIGH IMPACT
+Debt Ratio — HIGH IMPACT
+Profit Margin — MEDIUM IMPACT
+
+Provide an explanation for each major risk factor.
+
+Do not claim that a factor caused the prediction unless supported by the model/explanation method.
+
+If possible, use feature importance from Random Forest or SHAP if compatible.
+
+EARLY WARNING SYSTEM:
+
+Create an Early Warning Center.
+
+Automatically detect warning patterns such as:
+
+- Revenue decline
+- Profit margin decline
+- Cash flow deterioration
+- Increasing debt ratio
+- High expenses
+- Low working capital
+- Declining sales growth
+- High customer concentration
+- Poor inventory turnover
+- Increasing supply chain delays
+
+Display:
+
+Severity
+Warning
+Affected Indicator
+Current Value
+Previous/Reference Value
+Explanation
+Recommended Action
+
+Use:
+LOW
+MEDIUM
+HIGH
+CRITICAL
+
+AI ADVISOR:
+
+Create an "MSME Business Advisor" page.
+
+Do not require an external AI API.
+
+Generate rule/model-based recommendations from detected risk factors.
+
+Examples:
+
+Cash Flow Risk:
+"Improve receivables collection and reduce unnecessary operating expenses."
+
+Debt Risk:
+"Review high-interest debt and reduce short-term borrowing."
+
+Profit Risk:
+"Review major expense categories and improve operating margins."
+
+Sales Risk:
+"Focus on high-performing products and customer segments."
+
+Inventory Risk:
+"Improve inventory turnover and reduce slow-moving stock."
+
+Each recommendation must contain:
+
+Problem
+Impact
+Priority
+Recommended Action
+
+DASHBOARD:
+
+Create cards for:
+
+Business Health Score
+Failure Probability
+Risk Level
+Model Confidence
+
+Financial indicators:
+
+Revenue
+Expenses
+Net Profit
+Cash Flow
+Debt Ratio
+Profit Margin
+
+Charts:
+
+Business Risk Trend
+Revenue vs Expenses
+Profit Trend
+Cash Flow Trend
+
+Also show:
+
+Top Risk Factors
+Recent Warnings
+Latest Prediction
+Recommended Actions
+
+PREDICTION HISTORY:
+
+Save predictions in SQLite.
+
+Store:
+- Date
+- Business identifier/name if provided
+- Failure probability
+- Survival probability
+- Risk level
+- Health score
+- Model confidence
+- Major risk factors
+
+Display prediction history in a table.
+
+Allow users to open previous prediction details.
+
+REPORT:
+
+Create a professional business risk report page.
+
+Include:
+
+Business Information
+Dataset Summary
+Business Health Score
+Failure Probability
+Risk Level
+Financial Analysis
+Operational Analysis
+External Risk
+Major Risk Factors
+Early Warnings
+Recommendations
+Prediction Date
+Model Information
+
+Add:
+Generate Report
+Print Report
+Download Report
+
+If PDF generation is practical, implement it. Otherwise create a print-friendly HTML report.
+
+ERROR HANDLING:
+
+Handle:
+
+Invalid CSV
+Missing columns
+Empty file
+Large file
+Invalid values
+Backend errors
+ML errors
+Database errors
+Network errors
+
+Show user-friendly messages.
+
+Never expose Python stack traces to users.
+
+SECURITY:
+
+- Validate uploaded file type
+- Limit upload size
+- Use secure filenames
+- Never execute uploaded files
+- Sanitize user inputs
+- Do not expose sensitive server information
+
+SETTINGS:
+
+Create settings page with:
+- Theme toggle
+- Notification preferences
+- Risk alert preferences
+- About system
+- Model information
+
+DEMO MODE:
+
+Include a Demo Mode so the complete application can be demonstrated without uploading a real dataset.
+
+Provide:
+"Load Demo Dataset"
+
+It should load the included sample CSV and run the complete workflow.
+
+IMPORTANT:
+Clearly label demo/synthetic data as demonstration data.
+
+DATABASE:
+
+Create tables for:
+- businesses
+- uploaded_datasets
+- predictions
+- risk_factors
+- warnings
+- recommendations
+
+Use SQLite for simplicity.
+
+README:
+
+Create a detailed README containing:
+
+Project description
+Features
+Technology stack
+Project structure
+Installation
+How to run
+How to train model
+CSV format
+API endpoints
+How to connect frontend/backend
+Demo instructions
+
+REPLIT REQUIREMENTS:
+
+Make the project run using Replit's Run button.
+
+Create a proper start command.
+
+The application must bind Flask to:
+0.0.0.0
+
+Use an appropriate environment PORT variable.
+
+Create requirements.txt containing all required Python packages.
+
+Do not require paid APIs.
+
+Do not require API keys.
+
+Do not use external services unless absolutely necessary.
+
+FINAL REQUIREMENT:
+
+After creating the application:
+
+1. Install dependencies.
+2. Run the application.
+3. Test the landing page.
+4. Test CSV upload.
+5. Test sample CSV.
+6. Test validation.
+7. Test ML prediction.
+8. Test risk classification.
+9. Test dashboard.
+10. Test prediction history.
+11. Test recommendations.
+12. Fix all runtime errors.
+13. Ensure all navigation links work.
+14. Ensure the application works on desktop and mobile.
+15. Ensure the application can be demonstrated from start to finish using the sample CSV.
+
+The final working flow must be:
+
+OPEN APPLICATION
+→ ANALYZE MY BUSINESS
+→ UPLOAD CSV
+→ VALIDATE DATA
+→ PREVIEW DATA
+→ ANALYZE DATASET
+→ ML PREDICTION
+→ FAILURE PROBABILITY
+→ RISK LEVEL
+→ BUSINESS HEALTH SCORE
+→ RISK FACTORS
+→ EARLY WARNINGS
+→ RECOMMENDATIONS
+→ SAVE PREDICTION
+→ VIEW HISTORY
+→ GENERATE REPORT
+
+Most importantly, do not stop after generating the UI. Implement the backend, database, CSV processing, machine-learning pipeline, API integration and complete working workflow.

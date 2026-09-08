@@ -3,13 +3,15 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: MSME Sentinel risk intelligence API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: sentinel
+    description: MSME data analysis and risk intelligence
 paths:
   /healthz:
     get:
@@ -24,6 +26,128 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /dashboard:
+    get:
+      operationId: getDashboard
+      tags: [sentinel]
+      summary: Get the latest dashboard summary
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+  /upload:
+    post:
+      operationId: uploadDataset
+      tags: [sentinel]
+      summary: Validate and register an MSME dataset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DatasetInput"
+      responses:
+        "200":
+          description: Dataset validation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DatasetValidation"
+        "400":
+          description: Invalid dataset
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /predict:
+    post:
+      operationId: createPrediction
+      tags: [sentinel]
+      summary: Run the MSME risk assessment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PredictionInput"
+      responses:
+        "200":
+          description: Prediction result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Prediction"
+        "400":
+          description: Prediction could not be calculated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /history:
+    get:
+      operationId: getPredictionHistory
+      tags: [sentinel]
+      summary: Get saved predictions
+      responses:
+        "200":
+          description: Prediction history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PredictionHistoryItem"
+  /prediction/{id}:
+    get:
+      operationId: getPrediction
+      tags: [sentinel]
+      summary: Get one saved prediction
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Prediction detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Prediction"
+        "404":
+          description: Prediction not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /report/{id}:
+    get:
+      operationId: getReport
+      tags: [sentinel]
+      summary: Get a print-friendly report
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Report data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Report"
+        "404":
+          description: Report not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +157,169 @@ components:
           type: string
       required:
         - status
+    DatasetRow:
+      type: object
+      additionalProperties:
+        type: [string, number, "null"]
+    DatasetInput:
+      type: object
+      required: [filename, rows]
+      properties:
+        filename:
+          type: string
+        rows:
+          type: array
+          items:
+            $ref: "#/components/schemas/DatasetRow"
+        businessName:
+          type: [string, "null"]
+    DatasetValidation:
+      type: object
+      required: [datasetId, filename, valid, records, columns, missingValues, duplicates, qualityScore, missingColumns, rows]
+      properties:
+        datasetId: { type: string }
+        filename: { type: string }
+        valid: { type: boolean }
+        records: { type: integer }
+        columns: { type: integer }
+        missingValues: { type: integer }
+        duplicates: { type: integer }
+        qualityScore: { type: integer }
+        missingColumns:
+          type: array
+          items: { type: string }
+        warnings:
+          type: array
+          items: { type: string }
+        rows:
+          type: array
+          items:
+            $ref: "#/components/schemas/DatasetRow"
+    PredictionInput:
+      type: object
+      required: [datasetId, rows]
+      properties:
+        datasetId: { type: string }
+        businessName: { type: [string, "null"] }
+        rows:
+          type: array
+          items:
+            $ref: "#/components/schemas/DatasetRow"
+    RiskFactor:
+      type: object
+      required: [name, value, impact, category, explanation]
+      properties:
+        name: { type: string }
+        value: { type: string }
+        impact: { type: integer }
+        category: { type: string }
+        explanation: { type: string }
+    Warning:
+      type: object
+      required: [id, severity, title, indicator, value, reference, explanation, action]
+      properties:
+        id: { type: string }
+        severity: { type: string }
+        title: { type: string }
+        indicator: { type: string }
+        value: { type: string }
+        reference: { type: string }
+        explanation: { type: string }
+        action: { type: string }
+    Recommendation:
+      type: object
+      required: [id, problem, impact, priority, action]
+      properties:
+        id: { type: string }
+        problem: { type: string }
+        impact: { type: string }
+        priority: { type: string }
+        action: { type: string }
+    Prediction:
+      type: object
+      required: [id, createdAt, businessName, datasetId, failureProbability, survivalProbability, riskLevel, healthScore, confidence, horizon, factors, warnings, recommendations, indicators, model]
+      properties:
+        id: { type: string }
+        createdAt: { type: string }
+        businessName: { type: string }
+        datasetId: { type: string }
+        failureProbability: { type: number }
+        survivalProbability: { type: number }
+        riskLevel: { type: string }
+        healthScore: { type: integer }
+        confidence: { type: number }
+        horizon: { type: string }
+        factors:
+          type: array
+          items: { $ref: "#/components/schemas/RiskFactor" }
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/Warning" }
+        recommendations:
+          type: array
+          items: { $ref: "#/components/schemas/Recommendation" }
+        indicators:
+          type: object
+          additionalProperties: { type: number }
+        model:
+          type: object
+          required: [name, accuracy, precision, recall, f1, rocAuc]
+          properties:
+            name: { type: string }
+            accuracy: { type: number }
+            precision: { type: number }
+            recall: { type: number }
+            f1: { type: number }
+            rocAuc: { type: number }
+    PredictionHistoryItem:
+      type: object
+      required: [id, createdAt, businessName, failureProbability, riskLevel, healthScore, confidence, topFactor]
+      properties:
+        id: { type: string }
+        createdAt: { type: string }
+        businessName: { type: string }
+        failureProbability: { type: number }
+        riskLevel: { type: string }
+        healthScore: { type: integer }
+        confidence: { type: number }
+        topFactor: { type: string }
+    DashboardSummary:
+      type: object
+      required: [latest, history, stats, trend]
+      properties:
+        latest:
+          type: ["object", "null"]
+          allOf:
+            - $ref: "#/components/schemas/Prediction"
+        history:
+          type: array
+          items: { $ref: "#/components/schemas/PredictionHistoryItem" }
+        stats:
+          type: object
+          required: [totalPredictions, averageHealth, averageRisk, activeWarnings]
+          properties:
+            totalPredictions: { type: integer }
+            averageHealth: { type: number }
+            averageRisk: { type: number }
+            activeWarnings: { type: integer }
+        trend:
+          type: array
+          items:
+            type: object
+            required: [label, risk, health]
+            properties:
+              label: { type: string }
+              risk: { type: number }
+              health: { type: number }
+    Report:
+      type: object
+      required: [prediction, validation]
+      properties:
+        prediction: { $ref: "#/components/schemas/Prediction" }
+        validation: { $ref: "#/components/schemas/DatasetValidation" }
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error: { type: string }
 

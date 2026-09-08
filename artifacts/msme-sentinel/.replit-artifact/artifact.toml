@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "MSME Sentinel"
+description = "A business risk intelligence app for MSMEs that validates uploaded financial data, predicts failure risk, explains the key drivers, surfaces early warnings, and generates practical recommendations and reports."
+version = "1.0.0"
+id = "artifacts/msme-sentinel"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19283
+
+[services.development]
+run = "pnpm --filter @workspace/msme-sentinel run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/msme-sentinel", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/msme-sentinel/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19283"
+BASE_PATH = "/"

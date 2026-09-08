@@ -1,0 +1,1 @@
+- [Risk transparency](risk-transparency.md) — unlabeled uploads use a transparent scorecard; benchmark metrics are shown only for labeled demo data.
